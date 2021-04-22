@@ -60,15 +60,16 @@ void loop(void)
 
   //Habilitamos crc
   LoRa.enableCrc();
-
+  LoRa.setTxPower(14);
   //Comentar o descomentar para los módulos en modo de transmisión/recepción
-  status = send_message(message_sent, delay_time, false); //(Modulo de emision, mensaje a enviar, delay entre mensajes, con/sin mensaje de confirmación)
+  status = send_message(message_sent, delay_time, true); //(Modulo de emision, mensaje a enviar, delay entre mensajes, con/sin mensaje de confirmación)
   //status=receive_message(20, false);
   //LoRa.enableInvertIQ();
   //LoRa.disableInvertIQ();
 
   //Serial.println(status);
   delay(100);
+  
 }
 
 uint8_t send_message( char *message, uint8_t seconds, boolean control)
@@ -79,6 +80,9 @@ uint8_t send_message( char *message, uint8_t seconds, boolean control)
   Serial.println("Start sending message");
   //Prendemos el led
   digitalWrite(LED, 1);
+  //LoRa.disableInvertIQ();
+  //LoRa.enableInvertIQ();
+  
   LoRa.beginPacket();
 
   LoRa.print("N°: ");
@@ -101,9 +105,11 @@ uint8_t send_message( char *message, uint8_t seconds, boolean control)
 
   if (control == true)
   {
-    //LoRa.receive();
-    for (i = 0; i < 10; i++)
-    {
+    LoRa.enableInvertIQ();
+    LoRa.receive();
+    
+    for (i = 0; i < 5; i++)
+    {      
       int packetSize = LoRa.parsePacket();
       //LoRa.receive();
       if (packetSize)
