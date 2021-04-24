@@ -81,8 +81,7 @@ uint8_t send_message( char *message, uint8_t seconds, boolean control)
   //Prendemos el led
   digitalWrite(LED, 1);
   //LoRa.disableInvertIQ();
-  //LoRa.enableInvertIQ();
-  
+
   LoRa.beginPacket();
 
   LoRa.print("N°: ");
@@ -105,7 +104,7 @@ uint8_t send_message( char *message, uint8_t seconds, boolean control)
 
   if (control == true)
   {
-    LoRa.enableInvertIQ();
+    //LoRa.enableInvertIQ();
     LoRa.receive();
     
     for (i = 0; i < 5; i++)

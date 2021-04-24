@@ -116,7 +116,7 @@ int LoRaClass::begin(long frequency)
     return 0;
     
   }
-
+  
   // put in sleep mode
   sleep();
 
@@ -170,7 +170,7 @@ int LoRaClass::beginPacket(int implicitHeader)
   writeRegister(REG_FIFO_ADDR_PTR, 0);
   writeRegister(REG_PAYLOAD_LENGTH, 0);
 
-  Serial.println(readRegister(REG_MODEM_CONFIG_2) & 0x07);
+  //Serial.println(readRegister(REG_MODEM_CONFIG_2) & 0x07);
 
   return 1;
 }
@@ -601,8 +601,10 @@ void LoRaClass::disableCrc()
 
 void LoRaClass::enableInvertIQ()
 {
+  Serial.println(readRegister(REG_INVERTIQ),HEX);
   writeRegister(REG_INVERTIQ,  0x66);
   writeRegister(REG_INVERTIQ2, 0x19);
+  Serial.println(readRegister(REG_INVERTIQ),HEX);
 }
 
 void LoRaClass::disableInvertIQ()
